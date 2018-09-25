@@ -37,6 +37,8 @@
  */
 package iotdk.example;
 
+import java.io.IOException;
+
 import mraa.Dir;
 import mraa.Edge;
 import mraa.Gpio;
@@ -45,7 +47,6 @@ import mraa.Platform;
 import mraa.Result;
 
 class IsrCounterCallback implements Runnable {
-
     // counter that will be updated by the interrupt routine
     int counter = 0;
 
@@ -60,43 +61,60 @@ class IsrCounterCallback implements Runnable {
 }
 
 public class Interrupt {
-    static String unknownPlatformMessage = "This sample uses the MRAA/UPM library for I/O access, " +
-        "you are running it on an unrecognized platform. " +
-        "You may need to modify the MRAA/UPM initialization code to " +
-        "ensure it works properly on your platform.\n\n";
 
+    static int pinNumber = 13;
+    
+    public static void inputEnter(String str){
+        System.err.println(str);
+        System.out.println("Press Enter to continue...");
+        try{
+            System.in.read();
+        } catch (IOException e)
+        {
+            System.out.println("Invalid input");
+        }
+    }
 
     public static void checkRoot(){
-      String username = System.getProperty("user.name");
-      System.out.println(username);
-      String message = "This project uses Mraa I/O operations, but you're not running as 'root'.\n"+
-      "The IO operations below might fail.\nSee the project's Readme for more info.\n\n";
-      if(!username.equals("root"))
-      {
-        System.out.println(message);
-      }
+        String username = System.getProperty("user.name");
+        System.out.println(username);
+        String message = "This project uses Mraa I/O operations that require\n" +
+                "'root' privileges, but you are running as non - root user.\n" +
+                "Passwordless keys(RSA key pairs) are recommended \n" +
+                "to securely connect to your target with root privileges. \n" +
+                "See the project's Readme for more info.\n\n";
+        if(!username.equals("root"))
+        {
+            System.out.println(message);
+        }
+    }
+
+    public static void initPlatform(){
+        Platform platform = mraa.getPlatformType();
+        if(platform.equals(Platform.INTEL_MINNOWBOARD_MAX))
+            pinNumber = 26;
+        if(platform.equals(Platform.INTEL_JOULE_EXPANSION))
+            pinNumber = 26;
+        if(platform.equals(Platform.UNKNOWN_PLATFORM))
+        {
+            String unknownPlatformMessage = "This sample uses the MRAA/UPM library for I/O access, " +
+                    "you are running it on an unrecognized platform.\n" +
+                    "You may need to modify the MRAA/UPM initialization code to " +
+                    "ensure it works properly on your platform.\n";
+            inputEnter(unknownPlatformMessage);
+        }
     }
 
     public static void main(String[] args) {
-
         checkRoot();
-
-        Platform platform = mraa.getPlatformType();
-        int pinNumber = 13;
-
-        if(platform.equals(Platform.INTEL_MINNOWBOARD_MAX))
-          pinNumber = 26;
-        if(platform.equals(Platform.INTEL_JOULE_EXPANSION))
-          pinNumber = 26;
-        if(platform.equals(Platform.UNKNOWN_PLATFORM))
-          System.err.println(unknownPlatformMessage);
+        initPlatform();
 
         // create a gpio object from MRAA
         Gpio pin = new Gpio(pinNumber);
 
         // set the pin as input
         if (pin.dir(Dir.DIR_IN) != Result.SUCCESS) {
-            System.err.println("Can't set digital pin as input, exiting");
+            inputEnter("Can't set digital pin as input, exiting");
             return;
         }
 
@@ -104,7 +122,7 @@ public class Interrupt {
         // this mode is supported)
         IsrCounterCallback callback = new IsrCounterCallback();
         if (pin.isr(Edge.EDGE_BOTH, callback) != Result.SUCCESS) {
-            System.err.println("Can't assign ISR to pin, exiting");
+            inputEnter("Can't assign ISR to pin, exiting");
             return;
         }
 

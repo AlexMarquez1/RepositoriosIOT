@@ -16,12 +16,12 @@
     "service_provider": "Google Cloud IoT Core",
     "service_provider_uri": "https://cloud.google.com/iot-core",
     "service_provider_description": "A fully managed service to easily and securely connect, manage, and ingest data from globally dispersed devices",
-    "sample_readme_uri": "https://github.com/intel-iot-devkit/iot-devkit-samples/blob/iss2018-update1/google-pub/c/README.md",
+    "sample_readme_uri": "https://github.com/intel-iot-devkit/iot-devkit-samples/blob/$BRANCHNAME/google-pub/c/README.md",
 	"additional_fields":[
 		{
 		 "id":"deviceId_iss",
-		 "name":"Device ID",
-		 "description":"Registered device ID"
+		 "name":"Device id",
+		 "description":"Registered device id"
 		},
 		{
 		 "id":"region_iss",
@@ -30,13 +30,13 @@
 		},
 		{
 		 "id":"registryId_iss",
-		 "name":"Registry ID",
-		 "description":"The registry ID"
+		 "name":"Registry Id",
+		 "description":"The registry id"
 		},
 		{
 		 "id":"projectId_iss",
 		 "name":"Project ID",
-		 "description":"The project ID"
+		 "description":"The project id"
 		},
 		{
 		 "id":"ecpath_iss",

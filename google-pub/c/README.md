@@ -82,7 +82,7 @@ After you have successfully built the sample, you are almost ready to run the sa
         --ecpath <e.g. ./ec_private.pem>\
         --rootpath <e.g. ./roots.pem>
 
-Provide the deviceid, registryid, and projectid parameters which you created earlier. The ecpath parameter should point to your private EC key created when you registered your device. The rootpath parameter specifies the roots.pem file that can be downloaded from https://pki.google.com/roots.pem. For example:
+Provide the deviceid, registryid, and projectid parameters which you created earlier. The ecpath parameter should point to your private EC key created when you registered your device. The rootpath parameter specifies the roots.pem file that can be downloaded from [Google](https://pki.google.com/roots.pem). For example:
 
     wget https://pki.google.com/roots.pem
 
@@ -90,6 +90,3 @@ The following example demonstrates usage of the sample if my device ID is my-dev
 
     mqtt_ciotc "Hello world!" --deviceid my-device-id --registryid my-registry\
         --projectid blue-ocean-123
-
-## Disclaimer
-IMPORTANT NOTICE: This software is sample software. It is not designed or intended for use in any medical, life-saving or life-sustaining systems, transportation systems, nuclear systems, or for any other mission-critical application in which the failure of the system could lead to critical injury or death. The software may not be fully tested and may contain bugs or errors; it may not be intended or suitable for commercial release. No regulatory approvals for the software have been obtained, and therefore software may not be certified for use in certain countries or environments.
